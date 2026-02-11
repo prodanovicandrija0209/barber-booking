@@ -7,6 +7,8 @@ import ServicesList from './pages/ServicesList'
 import ServiceDetail from './pages/ServiceDetail'
 import MyReservations from './pages/MyReservations'
 import AdminDashboard from './pages/AdminDashboard'
+import ProtectedRoute from './router/ProtectedRoute'
+import AdminRoute from './router/AdminRoute'
 
 function App() {
   return (
@@ -17,8 +19,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/services" element={<ServicesList />} />
         <Route path="/services/:id" element={<ServiceDetail />} />
-        <Route path="/my-reservations" element={<MyReservations />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/my-reservations" element={<MyReservations />} />
+        </Route>
+
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Route>
       </Route>
     </Routes>
   )
