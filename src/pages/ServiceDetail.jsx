@@ -24,7 +24,7 @@ function ServiceDetail() {
         }
       } catch (requestError) {
         if (isMounted) {
-          if (requestError.message.includes('404')) {
+          if (requestError.status === 404) {
             setService(null)
             setNotFound(true)
           } else {
