@@ -15,7 +15,6 @@ function ServiceBooking() {
   const userEmail = user?.email ?? ''
   const [slots, setSlots] = useState([])
   const [holidayDates, setHolidayDates] = useState(new Set())
-  const [holidaysLoadedCount, setHolidaysLoadedCount] = useState(0)
   const [selectedSlotId, setSelectedSlotId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -67,7 +66,6 @@ function ServiceBooking() {
     const loadHolidays = async () => {
       if (slots.length === 0) {
         setHolidayDates(new Set())
-        setHolidaysLoadedCount(0)
         return
       }
 
@@ -80,13 +78,11 @@ function ServiceBooking() {
             .flat()
             .map((holiday) => String(holiday.date).slice(0, 10))
           setHolidayDates(new Set(dates))
-          setHolidaysLoadedCount(dates.length)
         }
       } catch {
         // Ignore holiday API errors; booking must continue to work.
         if (!canceled) {
           setHolidayDates(new Set())
-          setHolidaysLoadedCount(0)
         }
       }
     }
@@ -144,7 +140,6 @@ function ServiceBooking() {
   return (
     <div>
       <h1>Booking for service {serviceId}</h1>
-      <p>Holidays loaded: {holidaysLoadedCount}</p>
       {slots.length === 0 ? (
         <p>No available terms.</p>
       ) : (
