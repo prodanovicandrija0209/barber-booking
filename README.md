@@ -1,16 +1,61 @@
-# React + Vite
+﻿# Barber Booking
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Prerequisites
+- Node.js 18+
+- npm 9+
 
-Currently, two official plugins are available:
+## Run Frontend
+```bash
+npm install
+npm run dev
+```
+Frontend runs on Vite default URL (usually `http://localhost:5173`).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Run API (json-server)
+```bash
+npm run api
+```
+By default this script runs:
+```bash
+json-server --watch db.json --port 3001
+```
+If needed, you can run json-server manually on a custom port.
 
-## React Compiler
+## Default Accounts
+Auth is localStorage-based (no real backend auth yet).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Admin
+  - email: `admin@barber.com`
+  - password: any value (example: `admin123`)
+  - role resolved as `admin`
+- User
+  - email: `user@barber.com`
+  - password: any value (example: `user123`)
+  - role resolved as `user`
 
-## Expanding the ESLint configuration
+## Tests and Coverage
+Run tests:
+```bash
+npm test -- --run
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Run coverage:
+```bash
+npm run test:coverage
+```
+
+## Feature List (Current)
+- React + Vite SPA with `react-router-dom`
+- Layout + pages routing (`Home`, `Services`, `Login`, `Register`, `My Reservations`, `Admin`)
+- LocalStorage auth skeleton (`login`, `logout`, `current user`)
+- Route guards:
+  - protected routes for logged-in users
+  - admin-only route for admin dashboard
+- Services data from `json-server`
+- Service details page
+- Service booking page with available time slots
+- Public holiday visual badge on matching time slots (Nager.Date API)
+- Reservation creation and cancel flow
+- Add reservation to calendar (`.ics`) download
+- Admin dashboard minimal CRUD for services (list/add/delete)
+- Vitest + React Testing Library test suite with API mocking and coverage
