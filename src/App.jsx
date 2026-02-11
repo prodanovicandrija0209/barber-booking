@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import ServicesList from './pages/ServicesList'
 import ServiceDetail from './pages/ServiceDetail'
+import ServiceBooking from './pages/ServiceBooking'
 import MyReservations from './pages/MyReservations'
 import AdminDashboard from './pages/AdminDashboard'
 import ProtectedRoute from './router/ProtectedRoute'
@@ -19,6 +20,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/services" element={<ServicesList />} />
         <Route path="/services/:id" element={<ServiceDetail />} />
+        <Route path="/services/:id/book" element={<ServiceBooking />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/my-reservations" element={<MyReservations />} />

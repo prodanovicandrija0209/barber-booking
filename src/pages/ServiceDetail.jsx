@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getServiceById } from '../api/http'
 
 function ServiceDetail() {
@@ -64,7 +64,9 @@ function ServiceDetail() {
       <p>Price: {service.price} RSD</p>
       <p>Duration: {service.duration} min</p>
       <p>{service.description}</p>
-      <button type="button">Rezerviši termin</button>
+      <Link to={`/services/${id}/book`}>
+        <button type="button">{'Rezervi\u0161i termin'}</button>
+      </Link>
     </div>
   )
 }

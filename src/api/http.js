@@ -17,3 +17,8 @@ export function getServices() {
 export function getServiceById(id) {
   return request(`/services/${id}`)
 }
+
+export async function getTimeSlotsByService(serviceId) {
+  const slots = await request(`/timeSlots?serviceId=${serviceId}`)
+  return slots.filter((slot) => slot.available === true)
+}

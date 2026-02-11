@@ -9,14 +9,14 @@
     {
       "id": 2,
       "email": "user@barber.com",
-      "name": "Regular User",
+      "name": "User",
       "role": "user"
     }
   ],
   "services": [
     {
       "id": 1,
-      "name": "Šišanje",
+      "name": "Sisanje",
       "duration": 30,
       "price": 1200,
       "description": "Klasicno sisanje po izboru sa zavrsnim stilizovanjem."
@@ -30,7 +30,7 @@
     },
     {
       "id": 3,
-      "name": "Šišanje + Brada",
+      "name": "Sisanje + Brada",
       "duration": 50,
       "price": 1900,
       "description": "Kompletan tretman sisanja i uredjivanja brade u jednom terminu."
