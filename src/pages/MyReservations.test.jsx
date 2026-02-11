@@ -48,7 +48,7 @@ describe('MyReservations', () => {
 
     expect(await screen.findByText(/Service ID: 2/i)).toBeInTheDocument()
 
-    const cancelButton = screen.getByRole('button')
+    const cancelButton = screen.getByRole('button', { name: /otka/i })
     await user.click(cancelButton)
 
     await waitFor(() => {

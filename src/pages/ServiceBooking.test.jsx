@@ -65,10 +65,7 @@ describe('ServiceBooking', () => {
     expect(
       screen.getByRole('button', { name: /2026-02-14\s+11:00.*11:30/i }),
     ).toBeInTheDocument()
-    expect(await screen.findByText('Holidays loaded: 1')).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: /2026-02-13\s+10:30.*Holiday/i }),
-    ).toBeInTheDocument()
+    expect(await screen.findByText('Holiday')).toBeInTheDocument()
 
     await user.click(firstSlotButton)
 

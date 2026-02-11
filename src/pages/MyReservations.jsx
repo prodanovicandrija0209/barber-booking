@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getCurrentUser } from '../auth/auth'
 import {
@@ -82,6 +82,56 @@ function MyReservations() {
     }
   }
 
+  const formatIcsDateTime = (date, time) =>
+    `${date.replaceAll('-', '')}T${time.replace(':', '')}00`
+
+  const formatUtcStamp = (value) =>
+    value.replaceAll('-', '').replaceAll(':', '').split('.')[0] + 'Z'
+
+  const handleAddToCalendar = (reservation) => {
+    if (!reservation.slot) {
+      return
+    }
+
+    const start = formatIcsDateTime(
+      reservation.slot.date,
+      reservation.slot.startTime,
+    )
+    const end = formatIcsDateTime(
+      reservation.slot.date,
+      reservation.slot.endTime,
+    )
+    const nowStamp = formatUtcStamp(new Date().toISOString())
+
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//barber-booking//EN',
+      'BEGIN:VEVENT',
+      `UID:reservation-${reservation.id}@barber-booking`,
+      `DTSTAMP:${nowStamp}`,
+      `DTSTART:${start}`,
+      `DTEND:${end}`,
+      `SUMMARY:Barber Reservation (Service ${reservation.serviceId})`,
+      'DESCRIPTION:Reservation created from barber-booking app.',
+      'END:VEVENT',
+      'END:VCALENDAR',
+      '',
+    ].join('\r\n')
+
+    const file = new Blob([icsContent], {
+      type: 'text/calendar;charset=utf-8',
+    })
+    const fileUrl = URL.createObjectURL(file)
+    const link = document.createElement('a')
+    link.href = fileUrl
+    link.download = `reservation-${reservation.id}.ics`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(fileUrl)
+  }
+
   if (!user) {
     return (
       <div>
@@ -127,7 +177,15 @@ function MyReservations() {
                 }
                 disabled={cancelingId === reservation.id}
               >
-                {cancelingId === reservation.id ? 'Cancelling...' : 'Otkaži'}
+                {cancelingId === reservation.id ? 'Cancelling...' : 'Otka\u017ei'}
+              </button>
+              {' '}
+              <button
+                type="button"
+                onClick={() => handleAddToCalendar(reservation)}
+                disabled={!reservation.slot}
+              >
+                Add to calendar (.ics)
               </button>
             </li>
           ))}
