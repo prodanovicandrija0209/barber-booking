@@ -13,13 +13,13 @@ function App() {
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/services" element={<ServicesList />} />
         <Route path="/services/:id" element={<ServiceDetail />} />
         <Route path="/my-reservations" element={<MyReservations />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Route>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
     </Routes>
   )
 }
