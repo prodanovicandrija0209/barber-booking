@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getCurrentUser } from '../auth/auth'
+import { getHolidays } from '../api/holidays'
 import {
   createReservation,
   getAvailableTimeSlots,
@@ -13,6 +14,8 @@ function ServiceBooking() {
   const user = getCurrentUser()
   const userEmail = user?.email ?? ''
   const [slots, setSlots] = useState([])
+  const [holidayDates, setHolidayDates] = useState(new Set())
+  const [holidaysLoadedCount, setHolidaysLoadedCount] = useState(0)
   const [selectedSlotId, setSelectedSlotId] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -57,6 +60,43 @@ function ServiceBooking() {
       canceled = true
     }
   }, [serviceId, userEmail])
+
+  useEffect(() => {
+    let canceled = false
+
+    const loadHolidays = async () => {
+      if (slots.length === 0) {
+        setHolidayDates(new Set())
+        setHolidaysLoadedCount(0)
+        return
+      }
+
+      const years = [...new Set(slots.map((slot) => slot.date.slice(0, 4)))]
+
+      try {
+        const responses = await Promise.all(years.map((year) => getHolidays(year)))
+        if (!canceled) {
+          const dates = responses
+            .flat()
+            .map((holiday) => String(holiday.date).slice(0, 10))
+          setHolidayDates(new Set(dates))
+          setHolidaysLoadedCount(dates.length)
+        }
+      } catch {
+        // Ignore holiday API errors; booking must continue to work.
+        if (!canceled) {
+          setHolidayDates(new Set())
+          setHolidaysLoadedCount(0)
+        }
+      }
+    }
+
+    loadHolidays()
+
+    return () => {
+      canceled = true
+    }
+  }, [slots])
 
   const selectedSlot =
     slots.find((slot) => slot.id === selectedSlotId) || null
@@ -104,6 +144,7 @@ function ServiceBooking() {
   return (
     <div>
       <h1>Booking for service {serviceId}</h1>
+      <p>Holidays loaded: {holidaysLoadedCount}</p>
       {slots.length === 0 ? (
         <p>No available terms.</p>
       ) : (
@@ -122,6 +163,19 @@ function ServiceBooking() {
               {slot.date} {slot.startTime}
               {'\u2013'}
               {slot.endTime}
+              {holidayDates.has(String(slot.date).slice(0, 10)) && (
+                <span
+                  style={{
+                    marginLeft: '0.5rem',
+                    fontSize: '0.75rem',
+                    padding: '0.1rem 0.35rem',
+                    border: '1px solid #999',
+                    borderRadius: '10px',
+                  }}
+                >
+                  Holiday
+                </span>
+              )}
             </button>
           ))}
         </div>
