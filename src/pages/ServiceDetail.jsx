@@ -7,6 +7,7 @@ function ServiceDetail() {
   const [service, setService] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -14,15 +15,21 @@ function ServiceDetail() {
     const loadService = async () => {
       setLoading(true)
       setError('')
+      setNotFound(false)
 
       try {
         const data = await getServiceById(id)
         if (isMounted) {
           setService(data)
         }
-      } catch {
+      } catch (requestError) {
         if (isMounted) {
-          setError('Error')
+          if (requestError.message.includes('404')) {
+            setService(null)
+            setNotFound(true)
+          } else {
+            setError('Error')
+          }
         }
       } finally {
         if (isMounted) {
@@ -46,8 +53,8 @@ function ServiceDetail() {
     return <p>Error</p>
   }
 
-  if (!service) {
-    return <p>Error</p>
+  if (notFound || !service) {
+    return <p>Not found</p>
   }
 
   return (
@@ -57,6 +64,7 @@ function ServiceDetail() {
       <p>Price: {service.price} RSD</p>
       <p>Duration: {service.duration} min</p>
       <p>{service.description}</p>
+      <button type="button">Rezerviši termin</button>
     </div>
   )
 }
