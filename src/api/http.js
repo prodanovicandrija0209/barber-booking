@@ -17,6 +17,27 @@ export function getServices() {
   return request('/services')
 }
 
+export function createService({ name, price, duration, description }) {
+  return request('/services', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      name,
+      price: Number(price),
+      duration: Number(duration),
+      description,
+    }),
+  })
+}
+
+export function deleteService(serviceId) {
+  return request(`/services/${serviceId}`, {
+    method: 'DELETE',
+  })
+}
+
 export function getServiceById(id) {
   return request(`/services/${id}`)
 }
