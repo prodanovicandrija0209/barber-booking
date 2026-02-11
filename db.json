@@ -1,0 +1,55 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "admin@barber.com",
+      "name": "Admin",
+      "role": "admin"
+    },
+    {
+      "id": 2,
+      "email": "user@barber.com",
+      "name": "Regular User",
+      "role": "user"
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "name": "Šišanje",
+      "duration": 30,
+      "price": 1200,
+      "description": "Klasicno sisanje po izboru sa zavrsnim stilizovanjem."
+    },
+    {
+      "id": 2,
+      "name": "Brada",
+      "duration": 20,
+      "price": 900,
+      "description": "Oblikovanje i skracivanje brade uz precizno liniranje."
+    },
+    {
+      "id": 3,
+      "name": "Šišanje + Brada",
+      "duration": 50,
+      "price": 1900,
+      "description": "Kompletan tretman sisanja i uredjivanja brade u jednom terminu."
+    },
+    {
+      "id": 4,
+      "name": "Farbanje",
+      "duration": 60,
+      "price": 2600,
+      "description": "Farbanje kose uz konsultaciju i odabir nijanse."
+    },
+    {
+      "id": 5,
+      "name": "Pranje + Fen",
+      "duration": 25,
+      "price": 800,
+      "description": "Pranje kose i feniranje za uredan zavrsni izgled."
+    }
+  ],
+  "timeSlots": [],
+  "reservations": []
+}
