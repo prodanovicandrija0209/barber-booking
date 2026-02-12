@@ -38,19 +38,19 @@ function ServicesList() {
   }, [])
 
   if (loading) {
-    return <p>Ucitavanje...</p>
+    return <p className="alert alert-loading">Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Greska</p>
+    return <p className="alert alert-error">Greska</p>
   }
 
   return (
-    <div>
+    <div className="page-card">
       <h1>Usluge</h1>
-      <ul>
+      <ul className="list">
         {services.map((service) => (
-          <li key={service.id}>
+          <li key={service.id} className="list-item list-card row">
             <Link to={`/services/${service.id}`}>{service.name}</Link> - {service.price} RSD - {service.duration} min
           </li>
         ))}

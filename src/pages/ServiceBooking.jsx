@@ -99,19 +99,19 @@ function ServiceBooking() {
 
   if (!user) {
     return (
-      <div>
-        <p>Morate biti prijavljeni da biste rezervisali termin.</p>
+      <div className="page-card">
+        <p className="alert alert-error">Morate biti prijavljeni da biste rezervisali termin.</p>
         <Link to="/login">Idi na prijavu</Link>
       </div>
     )
   }
 
   if (loading) {
-    return <p>Ucitavanje...</p>
+    return <p className="alert alert-loading">Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Greska</p>
+    return <p className="alert alert-error">Greska</p>
   }
 
   const handleConfirmReservation = async () => {
@@ -138,59 +138,48 @@ function ServiceBooking() {
   }
 
   return (
-    <div>
+    <div className="page-card">
       <h1>Rezervacija za uslugu {serviceId}</h1>
       {slots.length === 0 ? (
         <p>Nema dostupnih termina.</p>
       ) : (
-        <div>
+        <div className="row">
           {slots.map((slot) => (
             <button
+              className={`btn btn-secondary${selectedSlotId === slot.id ? ' btn-slot-active' : ''}`}
               key={slot.id}
               type="button"
               onClick={() => setSelectedSlotId(slot.id)}
-              style={{
-                marginRight: '0.5rem',
-                marginBottom: '0.5rem',
-                fontWeight: selectedSlotId === slot.id ? '700' : '400',
-              }}
             >
               {slot.date} {slot.startTime}
               {'\u2013'}
               {slot.endTime}
               {holidayDates.has(String(slot.date).slice(0, 10)) && (
-                <span
-                  style={{
-                    marginLeft: '0.5rem',
-                    fontSize: '0.75rem',
-                    padding: '0.1rem 0.35rem',
-                    border: '1px solid #999',
-                    borderRadius: '10px',
-                  }}
-                >
-                  Praznik
-                </span>
+                <span className="badge">Praznik</span>
               )}
             </button>
           ))}
         </div>
       )}
       {selectedSlot && (
-        <p>
+        <p className="list-card">
           Izabrani termin: {selectedSlot.date} {selectedSlot.startTime}
           {'\u2013'}
           {selectedSlot.endTime}
         </p>
       )}
       <button
+        className="btn btn-primary"
         type="button"
         onClick={handleConfirmReservation}
         disabled={!selectedSlotId || submitting}
       >
         {submitting ? 'Cuvanje...' : 'Potvrdi rezervaciju'}
       </button>
-      {submitError && <p>{submitError}</p>}
-      <Link to={`/services/${serviceId}`}>Nazad na detalje usluge</Link>
+      {submitError && <p className="alert alert-error">{submitError}</p>}
+      <p>
+        <Link to={`/services/${serviceId}`}>Nazad na detalje usluge</Link>
+      </p>
     </div>
   )
 }

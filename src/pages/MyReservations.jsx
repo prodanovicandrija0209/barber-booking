@@ -110,28 +110,28 @@ function MyReservations() {
 
   if (!user) {
     return (
-      <div>
-        <p>Morate biti prijavljeni da biste videli rezervacije.</p>
+      <div className="page-card">
+        <p className="alert alert-error">Morate biti prijavljeni da biste videli rezervacije.</p>
         <Link to="/login">Idi na prijavu</Link>
       </div>
     )
   }
 
   if (loading) {
-    return <p>Ucitavanje...</p>
+    return <p className="alert alert-loading">Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Greska</p>
+    return <p className="alert alert-error">Greska</p>
   }
 
   return (
-    <div>
+    <div className="page-card">
       <h1>Moje rezervacije</h1>
       {reservations.length === 0 ? (
         <p>Nema rezervacija.</p>
       ) : (
-        <ul>
+        <ul className="list">
           {reservations.map((reservation) => {
             const hasDateTime =
               Boolean(reservation?.slot?.date || reservation?.date) &&
@@ -139,7 +139,7 @@ function MyReservations() {
               Boolean(reservation?.slot?.endTime || reservation?.endTime)
 
             return (
-              <li key={reservation.id}>
+              <li key={reservation.id} className="list-item list-card">
                 Usluga ID: {reservation.serviceId}
                 {reservation.slot ? (
                   <>
@@ -153,6 +153,7 @@ function MyReservations() {
                 )}
                 {' '}
                 <button
+                  className="btn btn-danger"
                   type="button"
                   onClick={() =>
                     handleCancel(reservation.id, reservation.timeSlotId)
@@ -163,19 +164,20 @@ function MyReservations() {
                 </button>
                 {' '}
                 <button
+                  className="btn btn-secondary"
                   type="button"
                   onClick={() => handleAddToCalendar(reservation)}
                   disabled={!hasDateTime}
                 >
                   Dodaj u kalendar
                 </button>
-                {!hasDateTime && <span> Nedostaju datum/vreme</span>}
+                {!hasDateTime && <span className="badge">Nedostaju datum/vreme</span>}
               </li>
             )
           })}
         </ul>
       )}
-      {cancelError && <p>{cancelError}</p>}
+      {cancelError && <p className="alert alert-error">{cancelError}</p>}
     </div>
   )
 }

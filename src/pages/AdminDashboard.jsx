@@ -86,26 +86,27 @@ function AdminDashboard() {
   }
 
   if (loading) {
-    return <p>Ucitavanje...</p>
+    return <p className="alert alert-loading">Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Greska</p>
+    return <p className="alert alert-error">Greska</p>
   }
 
   return (
-    <div>
+    <div className="page-card">
       <h1>Administratorski panel</h1>
 
       <h2>Usluge</h2>
       {services.length === 0 ? (
         <p>Nema usluga.</p>
       ) : (
-        <ul>
+        <ul className="list">
           {services.map((service) => (
-            <li key={service.id}>
+            <li key={service.id} className="list-item list-card row">
               {service.name} - {service.price} RSD - {service.duration} min{' '}
               <button
+                className="btn btn-danger"
                 type="button"
                 onClick={() => handleDeleteService(service.id)}
                 disabled={deletingId === service.id}
@@ -118,7 +119,7 @@ function AdminDashboard() {
       )}
 
       <h2>Dodaj uslugu</h2>
-      <form onSubmit={handleAddService}>
+      <form className="admin-form" onSubmit={handleAddService}>
         <div>
           <label>
             Naziv
@@ -166,12 +167,12 @@ function AdminDashboard() {
             />
           </label>
         </div>
-        <button type="submit" disabled={submitting}>
+        <button className="btn btn-primary" type="submit" disabled={submitting}>
           {submitting ? 'Cuvanje...' : 'Dodaj uslugu'}
         </button>
       </form>
 
-      {actionError && <p>{actionError}</p>}
+      {actionError && <p className="alert alert-error">{actionError}</p>}
     </div>
   )
 }

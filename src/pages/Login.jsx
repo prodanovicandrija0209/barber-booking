@@ -14,7 +14,7 @@ function Login() {
   }
 
   return (
-    <div>
+    <div className="page-card">
       <h1>Prijava</h1>
       <form onSubmit={handleSubmit} className="auth-form">
         <label>
@@ -35,7 +35,7 @@ function Login() {
             required
           />
         </label>
-        <button type="submit">Prijavi se</button>
+        <button className="btn btn-primary" type="submit">Prijavi se</button>
       </form>
     </div>
   )
