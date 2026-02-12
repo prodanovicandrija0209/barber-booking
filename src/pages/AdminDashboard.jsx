@@ -29,7 +29,7 @@ function AdminDashboard() {
         }
       } catch {
         if (!canceled) {
-          setError('Error')
+          setError('Greska')
         }
       } finally {
         if (!canceled) {
@@ -65,7 +65,7 @@ function AdminDashboard() {
         description: '',
       })
     } catch {
-      setActionError('Error')
+      setActionError('Greska')
     } finally {
       setSubmitting(false)
     }
@@ -79,27 +79,27 @@ function AdminDashboard() {
       await deleteService(serviceId)
       setServices((prev) => prev.filter((service) => service.id !== serviceId))
     } catch {
-      setActionError('Error')
+      setActionError('Greska')
     } finally {
       setDeletingId(null)
     }
   }
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Error</p>
+    return <p>Greska</p>
   }
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
+      <h1>Administratorski panel</h1>
 
-      <h2>Services</h2>
+      <h2>Usluge</h2>
       {services.length === 0 ? (
-        <p>No services.</p>
+        <p>Nema usluga.</p>
       ) : (
         <ul>
           {services.map((service) => (
@@ -110,18 +110,18 @@ function AdminDashboard() {
                 onClick={() => handleDeleteService(service.id)}
                 disabled={deletingId === service.id}
               >
-                {deletingId === service.id ? 'Deleting...' : 'Delete'}
+                {deletingId === service.id ? 'Brisanje...' : 'Obrisi'}
               </button>
             </li>
           ))}
         </ul>
       )}
 
-      <h2>Add service</h2>
+      <h2>Dodaj uslugu</h2>
       <form onSubmit={handleAddService}>
         <div>
           <label>
-            Name
+            Naziv
             <input
               type="text"
               name="name"
@@ -133,7 +133,7 @@ function AdminDashboard() {
         </div>
         <div>
           <label>
-            Price
+            Cena
             <input
               type="number"
               name="price"
@@ -145,7 +145,7 @@ function AdminDashboard() {
         </div>
         <div>
           <label>
-            Duration
+            Trajanje
             <input
               type="number"
               name="duration"
@@ -157,7 +157,7 @@ function AdminDashboard() {
         </div>
         <div>
           <label>
-            Description
+            Opis
             <textarea
               name="description"
               value={formData.description}
@@ -167,7 +167,7 @@ function AdminDashboard() {
           </label>
         </div>
         <button type="submit" disabled={submitting}>
-          {submitting ? 'Saving...' : 'Add service'}
+          {submitting ? 'Cuvanje...' : 'Dodaj uslugu'}
         </button>
       </form>
 

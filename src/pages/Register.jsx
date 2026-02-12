@@ -15,10 +15,10 @@ function Register() {
 
   return (
     <div>
-      <h1>Register</h1>
+      <h1>Registracija</h1>
       <form onSubmit={handleSubmit} className="auth-form">
         <label>
-          Email
+          Email adresa
           <input
             type="email"
             value={email}
@@ -27,7 +27,7 @@ function Register() {
           />
         </label>
         <label>
-          Password
+          Lozinka
           <input
             type="password"
             value={password}
@@ -35,7 +35,7 @@ function Register() {
             required
           />
         </label>
-        <button type="submit">Register</button>
+        <button type="submit">Registruj se</button>
       </form>
     </div>
   )

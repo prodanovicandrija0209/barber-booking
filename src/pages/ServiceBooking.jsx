@@ -44,7 +44,7 @@ function ServiceBooking() {
         }
       } catch {
         if (!canceled) {
-          setError('Error')
+          setError('Greska')
         }
       } finally {
         if (!canceled) {
@@ -100,18 +100,18 @@ function ServiceBooking() {
   if (!user) {
     return (
       <div>
-        <p>You must be logged in to book a term.</p>
-        <Link to="/login">Go to Login</Link>
+        <p>Morate biti prijavljeni da biste rezervisali termin.</p>
+        <Link to="/login">Idi na prijavu</Link>
       </div>
     )
   }
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Error</p>
+    return <p>Greska</p>
   }
 
   const handleConfirmReservation = async () => {
@@ -131,7 +131,7 @@ function ServiceBooking() {
       await markTimeSlotUnavailable(selectedSlotId)
       navigate('/my-reservations')
     } catch {
-      setSubmitError('Error')
+      setSubmitError('Greska')
     } finally {
       setSubmitting(false)
     }
@@ -139,9 +139,9 @@ function ServiceBooking() {
 
   return (
     <div>
-      <h1>Booking for service {serviceId}</h1>
+      <h1>Rezervacija za uslugu {serviceId}</h1>
       {slots.length === 0 ? (
-        <p>No available terms.</p>
+        <p>Nema dostupnih termina.</p>
       ) : (
         <div>
           {slots.map((slot) => (
@@ -168,7 +168,7 @@ function ServiceBooking() {
                     borderRadius: '10px',
                   }}
                 >
-                  Holiday
+                  Praznik
                 </span>
               )}
             </button>
@@ -177,7 +177,7 @@ function ServiceBooking() {
       )}
       {selectedSlot && (
         <p>
-          Selected slot: {selectedSlot.date} {selectedSlot.startTime}
+          Izabrani termin: {selectedSlot.date} {selectedSlot.startTime}
           {'\u2013'}
           {selectedSlot.endTime}
         </p>
@@ -187,10 +187,10 @@ function ServiceBooking() {
         onClick={handleConfirmReservation}
         disabled={!selectedSlotId || submitting}
       >
-        {submitting ? 'Saving...' : 'Potvrdi rezervaciju'}
+        {submitting ? 'Cuvanje...' : 'Potvrdi rezervaciju'}
       </button>
       {submitError && <p>{submitError}</p>}
-      <Link to={`/services/${serviceId}`}>Back to service detail</Link>
+      <Link to={`/services/${serviceId}`}>Nazad na detalje usluge</Link>
     </div>
   )
 }

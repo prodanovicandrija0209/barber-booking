@@ -15,8 +15,8 @@ describe('Login flow', () => {
     )
 
     await user.type(screen.getByLabelText(/email/i), 'user@test.com')
-    await user.type(screen.getByLabelText(/password/i), 'secret')
-    await user.click(screen.getByRole('button', { name: /login/i }))
+    await user.type(screen.getByLabelText(/lozinka/i), 'secret')
+    await user.click(screen.getByRole('button', { name: /prijavi se/i }))
 
     expect(await screen.findByText(/user@test.com/i)).toBeInTheDocument()
 

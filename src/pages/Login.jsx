@@ -15,10 +15,10 @@ function Login() {
 
   return (
     <div>
-      <h1>Login</h1>
+      <h1>Prijava</h1>
       <form onSubmit={handleSubmit} className="auth-form">
         <label>
-          Email
+          Email adresa
           <input
             type="email"
             value={email}
@@ -27,7 +27,7 @@ function Login() {
           />
         </label>
         <label>
-          Password
+          Lozinka
           <input
             type="password"
             value={password}
@@ -35,7 +35,7 @@ function Login() {
             required
           />
         </label>
-        <button type="submit">Login</button>
+        <button type="submit">Prijavi se</button>
       </form>
     </div>
   )

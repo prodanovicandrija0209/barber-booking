@@ -34,16 +34,16 @@ describe('AdminDashboard', () => {
     expect(await screen.findByText(/Sisanje - 1200 RSD - 30 min/i)).toBeInTheDocument()
     expect(screen.getByText(/Brada - 900 RSD - 20 min/i)).toBeInTheDocument()
 
-    await user.type(screen.getByLabelText(/name/i), 'Farbanje')
-    await user.type(screen.getByLabelText(/price/i), '2600')
-    await user.type(screen.getByLabelText(/duration/i), '60')
-    await user.type(screen.getByLabelText(/description/i), 'Test')
-    await user.click(screen.getByRole('button', { name: /add service/i }))
+    await user.type(screen.getByLabelText(/naziv/i), 'Farbanje')
+    await user.type(screen.getByLabelText(/cena/i), '2600')
+    await user.type(screen.getByLabelText(/trajanje/i), '60')
+    await user.type(screen.getByLabelText(/opis/i), 'Test')
+    await user.click(screen.getByRole('button', { name: /dodaj uslugu/i }))
 
     expect(await screen.findByText(/Farbanje - 2600 RSD - 60 min/i)).toBeInTheDocument()
     expect(createService).toHaveBeenCalledTimes(1)
 
-    const deleteButtons = screen.getAllByRole('button', { name: /delete/i })
+    const deleteButtons = screen.getAllByRole('button', { name: /obrisi/i })
     await user.click(deleteButtons[0])
 
     await waitFor(() => {

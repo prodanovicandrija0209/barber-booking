@@ -29,8 +29,8 @@ describe('ServiceDetail', () => {
     )
 
     expect(await screen.findByText('Pranje + Fen')).toBeInTheDocument()
-    expect(screen.getByText('Price: 800 RSD')).toBeInTheDocument()
-    expect(screen.getByText('Duration: 25 min')).toBeInTheDocument()
+    expect(screen.getByText('Cena: 800 RSD')).toBeInTheDocument()
+    expect(screen.getByText('Trajanje: 25 min')).toBeInTheDocument()
     expect(screen.getByText('Test description')).toBeInTheDocument()
     expect(getServiceById).toHaveBeenCalledWith('5')
   })

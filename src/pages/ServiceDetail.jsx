@@ -28,7 +28,7 @@ function ServiceDetail() {
             setService(null)
             setNotFound(true)
           } else {
-            setError('Error')
+            setError('Greska')
           }
         }
       } finally {
@@ -46,23 +46,23 @@ function ServiceDetail() {
   }, [id])
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Error</p>
+    return <p>Greska</p>
   }
 
   if (notFound || !service) {
-    return <p>Not found</p>
+    return <p>Nije pronadjeno</p>
   }
 
   return (
     <div>
-      <h1>Service Detail</h1>
+      <h1>Detalji usluge</h1>
       <h2>{service.name}</h2>
-      <p>Price: {service.price} RSD</p>
-      <p>Duration: {service.duration} min</p>
+      <p>Cena: {service.price} RSD</p>
+      <p>Trajanje: {service.duration} min</p>
       <p>{service.description}</p>
       <Link to={`/services/${id}/book`}>
         <button type="button">{'Rezervi\u0161i termin'}</button>

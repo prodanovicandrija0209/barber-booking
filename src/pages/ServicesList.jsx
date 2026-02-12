@@ -21,7 +21,7 @@ function ServicesList() {
         }
       } catch {
         if (isMounted) {
-          setError('Error')
+          setError('Greska')
         }
       } finally {
         if (isMounted) {
@@ -38,16 +38,16 @@ function ServicesList() {
   }, [])
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Error</p>
+    return <p>Greska</p>
   }
 
   return (
     <div>
-      <h1>Services</h1>
+      <h1>Usluge</h1>
       <ul>
         {services.map((service) => (
           <li key={service.id}>

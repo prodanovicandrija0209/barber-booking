@@ -65,12 +65,12 @@ describe('ServiceBooking', () => {
     expect(
       screen.getByRole('button', { name: /2026-02-14\s+11:00.*11:30/i }),
     ).toBeInTheDocument()
-    expect(await screen.findByText('Holiday')).toBeInTheDocument()
+    expect(await screen.findByText('Praznik')).toBeInTheDocument()
 
     await user.click(firstSlotButton)
 
     expect(
-      screen.getByText(/Selected slot: 2026-02-13 10:30.*11:30/i),
+      screen.getByText(/Izabrani termin: 2026-02-13 10:30.*11:30/i),
     ).toBeInTheDocument()
   })
 })

@@ -46,7 +46,7 @@ describe('MyReservations', () => {
       </MemoryRouter>,
     )
 
-    expect(await screen.findByText(/Service ID: 2/i)).toBeInTheDocument()
+    expect(await screen.findByText(/Usluga ID: 2/i)).toBeInTheDocument()
 
     const cancelButton = screen.getByRole('button', { name: /otka/i })
     await user.click(cancelButton)
@@ -57,7 +57,7 @@ describe('MyReservations', () => {
     })
 
     await waitFor(() => {
-      expect(screen.queryByText(/Service ID: 2/i)).not.toBeInTheDocument()
+      expect(screen.queryByText(/Usluga ID: 2/i)).not.toBeInTheDocument()
     })
   })
 })

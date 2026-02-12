@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getCurrentUser } from '../auth/auth'
+import { buildIcsForReservation } from '../utils/ics'
 import {
   deleteReservation,
   getReservationsByUser,
@@ -49,7 +50,7 @@ function MyReservations() {
         }
       } catch {
         if (!canceled) {
-          setError('Error')
+          setError('Greska')
         }
       } finally {
         if (!canceled) {
@@ -76,48 +77,23 @@ function MyReservations() {
         prev.filter((reservation) => reservation.id !== reservationId),
       )
     } catch {
-      setCancelError('Error')
+      setCancelError('Greska')
     } finally {
       setCancelingId(null)
     }
   }
 
-  const formatIcsDateTime = (date, time) =>
-    `${date.replaceAll('-', '')}T${time.replace(':', '')}00`
-
-  const formatUtcStamp = (value) =>
-    value.replaceAll('-', '').replaceAll(':', '').split('.')[0] + 'Z'
-
   const handleAddToCalendar = (reservation) => {
-    if (!reservation.slot) {
+    const hasDateTime =
+      Boolean(reservation?.slot?.date || reservation?.date) &&
+      Boolean(reservation?.slot?.startTime || reservation?.startTime) &&
+      Boolean(reservation?.slot?.endTime || reservation?.endTime)
+
+    if (!hasDateTime) {
       return
     }
 
-    const start = formatIcsDateTime(
-      reservation.slot.date,
-      reservation.slot.startTime,
-    )
-    const end = formatIcsDateTime(
-      reservation.slot.date,
-      reservation.slot.endTime,
-    )
-    const nowStamp = formatUtcStamp(new Date().toISOString())
-
-    const icsContent = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//barber-booking//EN',
-      'BEGIN:VEVENT',
-      `UID:reservation-${reservation.id}@barber-booking`,
-      `DTSTAMP:${nowStamp}`,
-      `DTSTART:${start}`,
-      `DTEND:${end}`,
-      `SUMMARY:Barber Reservation (Service ${reservation.serviceId})`,
-      'DESCRIPTION:Reservation created from barber-booking app.',
-      'END:VEVENT',
-      'END:VCALENDAR',
-      '',
-    ].join('\r\n')
+    const icsContent = buildIcsForReservation(reservation)
 
     const file = new Blob([icsContent], {
       type: 'text/calendar;charset=utf-8',
@@ -135,60 +111,68 @@ function MyReservations() {
   if (!user) {
     return (
       <div>
-        <p>You must be logged in to view reservations.</p>
-        <Link to="/login">Go to Login</Link>
+        <p>Morate biti prijavljeni da biste videli rezervacije.</p>
+        <Link to="/login">Idi na prijavu</Link>
       </div>
     )
   }
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Ucitavanje...</p>
   }
 
   if (error) {
-    return <p>Error</p>
+    return <p>Greska</p>
   }
 
   return (
     <div>
-      <h1>My Reservations</h1>
+      <h1>Moje rezervacije</h1>
       {reservations.length === 0 ? (
-        <p>No reservations.</p>
+        <p>Nema rezervacija.</p>
       ) : (
         <ul>
-          {reservations.map((reservation) => (
-            <li key={reservation.id}>
-              Service ID: {reservation.serviceId}
-              {reservation.slot ? (
-                <>
-                  {' - '}
-                  {reservation.slot.date} {reservation.slot.startTime}
-                  {'\u2013'}
-                  {reservation.slot.endTime}
-                </>
-              ) : (
-                ' - Time slot unavailable'
-              )}
-              {' '}
-              <button
-                type="button"
-                onClick={() =>
-                  handleCancel(reservation.id, reservation.timeSlotId)
-                }
-                disabled={cancelingId === reservation.id}
-              >
-                {cancelingId === reservation.id ? 'Cancelling...' : 'Otka\u017ei'}
-              </button>
-              {' '}
-              <button
-                type="button"
-                onClick={() => handleAddToCalendar(reservation)}
-                disabled={!reservation.slot}
-              >
-                Add to calendar (.ics)
-              </button>
-            </li>
-          ))}
+          {reservations.map((reservation) => {
+            const hasDateTime =
+              Boolean(reservation?.slot?.date || reservation?.date) &&
+              Boolean(reservation?.slot?.startTime || reservation?.startTime) &&
+              Boolean(reservation?.slot?.endTime || reservation?.endTime)
+
+            return (
+              <li key={reservation.id}>
+                Usluga ID: {reservation.serviceId}
+                {reservation.slot ? (
+                  <>
+                    {' - '}
+                    {reservation.slot.date} {reservation.slot.startTime}
+                    {'\u2013'}
+                    {reservation.slot.endTime}
+                  </>
+                ) : (
+                  ' - Termin nije dostupan'
+                )}
+                {' '}
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleCancel(reservation.id, reservation.timeSlotId)
+                  }
+                  disabled={cancelingId === reservation.id}
+                >
+                  {cancelingId === reservation.id ? 'Otkazivanje...' : 'Otka\u017ei'}
+                </button>
+                {' '}
+                <button
+                  type="button"
+                  onClick={() => handleAddToCalendar(reservation)}
+                  disabled={!hasDateTime}
+                >
+                  Dodaj u kalendar
+                </button>
+                {!hasDateTime && <span> Nedostaju datum/vreme</span>}
+              </li>
+            )
+          })}
         </ul>
       )}
       {cancelError && <p>{cancelError}</p>}

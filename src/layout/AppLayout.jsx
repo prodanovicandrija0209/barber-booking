@@ -28,20 +28,20 @@ function AppLayout() {
     <div>
       <header>
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/services">Services</Link>
-          <Link to="/my-reservations">My Reservations</Link>
-          <Link to="/admin">Admin</Link>
-          {!user && <Link to="/login">Login</Link>}
+          <Link to="/">Pocetna</Link>
+          <Link to="/services">Usluge</Link>
+          <Link to="/my-reservations">Moje rezervacije</Link>
+          <Link to="/admin">Administracija</Link>
+          {!user && <Link to="/login">Prijava</Link>}
         </nav>
         <div className="auth-bar">
           {user ? (
             <>
               <span>{user.email} ({user.role})</span>
-              <button type="button" onClick={handleLogout}>Logout</button>
+              <button type="button" onClick={handleLogout}>Odjava</button>
             </>
           ) : (
-            <span>Not logged in</span>
+            <span>Niste prijavljeni</span>
           )}
         </div>
       </header>
