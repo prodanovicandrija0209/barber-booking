@@ -48,13 +48,6 @@
       "duration": 25,
       "price": 800,
       "description": "Pranje kose i feniranje za uredan zavrsni izgled."
-    },
-    {
-      "id": "0211",
-      "name": "pranje kose",
-      "price": 300,
-      "duration": 15,
-      "description": "Brzinsko ispiranje kose"
     }
   ],
   "timeSlots": [
@@ -64,7 +57,7 @@
       "date": "2026-02-12",
       "startTime": "09:00",
       "endTime": "09:30",
-      "available": false
+      "available": true
     },
     {
       "id": "2",
@@ -120,7 +113,7 @@
       "date": "2026-02-13",
       "startTime": "14:00",
       "endTime": "14:50",
-      "available": true
+      "available": false
     },
     {
       "id": "9",
@@ -157,10 +150,10 @@
   ],
   "reservations": [
     {
-      "id": "c2fc",
+      "id": "2c2f",
       "userEmail": "user@test.com",
-      "serviceId": 1,
-      "timeSlotId": 1
+      "serviceId": 3,
+      "timeSlotId": 8
     }
   ]
 }
